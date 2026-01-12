@@ -1,26 +1,97 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Background */
+  --background: #FFF9FB;
+  --background-secondary: #F0F7FF;
+  --foreground: #2D3748;
+
+  /* Pastel Colors */
+  --pastel-pink: #FFD1DC;
+  --pastel-blue: #B5D8FF;
+  --pastel-mint: #B5F5EC;
+  --pastel-lavender: #E0D4F7;
+  --pastel-peach: #FFDAB3;
+  --pastel-yellow: #FFF4BD;
+
+  /* Text */
+  --text-primary: #2D3748;
+  --text-secondary: #718096;
+  --text-muted: #A0AEC0;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-pastel-pink: var(--pastel-pink);
+  --color-pastel-blue: var(--pastel-blue);
+  --color-pastel-mint: var(--pastel-mint);
+  --color-pastel-lavender: var(--pastel-lavender);
+  --color-pastel-peach: var(--pastel-peach);
+  --color-pastel-yellow: var(--pastel-yellow);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+
+  --font-sans: var(--font-pretendard);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+/* Grid Background Pattern */
+.grid-background {
+  background-image:
+    linear-gradient(to right, rgba(181, 216, 255, 0.3) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(181, 216, 255, 0.3) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Cross Pattern for Grid */
+.cross-pattern {
+  --cross-size: 12px;
+  --cross-color: rgba(160, 174, 192, 0.4);
+  background-image:
+    linear-gradient(var(--cross-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cross-color) 1px, transparent 1px);
+  background-size: var(--cross-size) var(--cross-size);
+  background-position: center center;
+}
+
+/* Plus Pattern */
+.plus-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23B5D8FF' stroke-width='1'%3E%3Cpath d='M30 25v10M25 30h10'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+/* Gradient Animations */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection */
+::selection {
+  background: var(--pastel-pink);
+  color: var(--text-primary);
 }
