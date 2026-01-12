@@ -47,7 +47,7 @@ export default function WorksPage() {
       <div className="absolute inset-0 plus-pattern opacity-40" />
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background-secondary/30" />
+      <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background-secondary/30" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
         {/* Main Title */}
@@ -63,7 +63,7 @@ export default function WorksPage() {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
           {/* Left Sidebar - Filter */}
           <motion.aside
-            className="lg:w-56 flex-shrink-0"
+            className="lg:w-56 shrink-0"
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
@@ -137,16 +137,6 @@ export default function WorksPage() {
                         <span className="text-text-muted font-mono">
                           {project.date}
                         </span>
-                        <div className="flex gap-2">
-                          {project.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-pastel-lavender"
-                            >
-                              [{tag}]
-                            </span>
-                          ))}
-                        </div>
                       </div>
                       <h3 className="text-xl font-semibold text-text-primary group-hover:text-pastel-pink transition-colors">
                         {project.title}

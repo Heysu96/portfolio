@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { projects } from "@/lib/data";
+
 
 const stats = [
-  { value: 15, suffix: "+", label: "Projects", icon: "📁" },
+  { value: projects.length, suffix: "+", label: "Projects", icon: "📁" },
   { value: 8, suffix: "+", label: "Years Experience", icon: "⏳" },
-  { value: 30, suffix: "+", label: "Available Tools", icon: "🛠️" },
+  { value: 20, suffix: "+", label: "Available Tools", icon: "🛠️" },
 ];
 
 const easeOutCubic = [0.25, 0.46, 0.45, 0.94] as const;
