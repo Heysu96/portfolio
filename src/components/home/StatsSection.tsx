@@ -5,9 +5,9 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const stats = [
-  { value: 50, suffix: "+", label: "Projects", icon: "📁" },
-  { value: 3, suffix: "+", label: "Years Experience", icon: "⏳" },
-  { value: 30, suffix: "+", label: "Happy Clients", icon: "😊" },
+  { value: 15, suffix: "+", label: "Projects", icon: "📁" },
+  { value: 8, suffix: "+", label: "Years Experience", icon: "⏳" },
+  { value: 30, suffix: "+", label: "Available Tools", icon: "🛠️" },
 ];
 
 const easeOutCubic = [0.25, 0.46, 0.45, 0.94] as const;

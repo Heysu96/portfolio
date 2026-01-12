@@ -72,7 +72,7 @@ export default function HeroSection() {
 
         {/* Decorative Line */}
         <motion.div
-          className="mt-12 mx-auto w-24 h-1 bg-gradient-to-r from-pastel-pink via-pastel-lavender to-pastel-blue rounded-full"
+          className="mt-12 mx-auto w-24 h-1 bg-linear-to-r from-pastel-pink via-pastel-lavender to-pastel-blue rounded-full"
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ scaleX: 1, opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.8, ease: easeOutCubic }}

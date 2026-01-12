@@ -3,7 +3,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 
 export const metadata: Metadata = {
-  title: "HK Studio | Designer Portfolio",
+  title: "HS Studio | Designer Portfolio",
   description: "Creative Designer Portfolio - Web, App, AI Video Design",
 };
 
