@@ -1,6 +1,8 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import { Mail } from "lucide-react";
+import { toast } from "sonner";
 
 const easeOutCubic = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -54,7 +56,7 @@ export default function AboutPage() {
           >
             <motion.div variants={fadeInUp}>
               <span className="text-sm font-medium text-pastel-lavender tracking-wider uppercase">
-                Vision
+                About Me
               </span>
             </motion.div>
 
@@ -62,9 +64,9 @@ export default function AboutPage() {
               variants={fadeInUp}
               className="text-2xl md:text-3xl lg:text-4xl font-semibold text-text-primary leading-tight"
             >
-              Create designs that<br />
+              디자인과 AI로<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-pastel-pink via-pastel-lavender to-pastel-blue">
-                inspire and connect
+                새로운 가치를 만듭니다
               </span>
             </motion.h2>
 
@@ -72,21 +74,20 @@ export default function AboutPage() {
               variants={fadeInUp}
               className="text-text-secondary leading-relaxed"
             >
-              Design is more than aesthetics—it&apos;s about creating meaningful
-              connections between people and products.
+              8년 이상의 경력을 바탕으로 UI/UX 디자인부터 AI 영상 제작까지,
+              다양한 디지털 콘텐츠를 기획하고 제작합니다.
             </motion.p>
 
             <motion.div variants={fadeInUp} className="space-y-6 pt-4">
               <p className="text-text-secondary leading-relaxed">
-                I specialize in crafting digital experiences that are both beautiful
-                and functional. From web applications to AI-powered video content,
-                I bring a unique blend of creativity and technical expertise to every
-                project.
+                웹/앱 랜딩페이지, 상세페이지 제작부터 프로모션 콘텐츠, 배너 디자인까지
+                전반적인 웹 디자인 업무를 담당하고 있습니다. Figma, Photoshop, Illustrator 등
+                다양한 툴을 활용하여 효율적인 디자인 워크플로우를 구축합니다.
               </p>
               <p className="text-text-secondary leading-relaxed">
-                With a keen eye for detail and a passion for innovation, I help brands
-                tell their stories through thoughtful design that resonates with their
-                audience.
+                최근에는 AI 기술을 활용한 이미지 생성 및 영상 제작에 집중하고 있습니다.
+                Sora, Kling AI, Hailuo AI 등을 활용한 FOOH 스타일 콘텐츠 제작과
+                프롬프트 엔지니어링을 통해 창의적인 AI 콘텐츠를 만들어내고 있습니다.
               </p>
             </motion.div>
           </motion.div>
@@ -101,18 +102,20 @@ export default function AboutPage() {
             {/* Skills */}
             <motion.div variants={fadeInUp}>
               <h3 className="text-lg font-semibold text-text-primary mb-6">
-                Expertise
+                Skills
               </h3>
               <div className="flex flex-wrap gap-3">
                 {[
-                  "UI/UX Design",
-                  "Web Design",
-                  "App Design",
-                  "AI Video",
-                  "Motion Graphics",
-                  "Branding",
+                  "AI 영상제작",
+                  "영상편집",
+                  "웹디자인",
+                  "UI/UX",
+                  "Photoshop",
+                  "Illustrator",
                   "Figma",
-                  "Adobe Suite",
+                  "브랜딩",
+                  "배너디자인",
+                  "CapCut",
                 ].map((skill) => (
                   <span
                     key={skill}
@@ -131,9 +134,10 @@ export default function AboutPage() {
               </h3>
               <div className="space-y-4">
                 {[
-                  { year: "2023 - Present", role: "Senior Designer", company: "HK Studio" },
-                  { year: "2021 - 2023", role: "UI/UX Designer", company: "Creative Agency" },
-                  { year: "2019 - 2021", role: "Junior Designer", company: "Design Lab" },
+                  { year: "2024.08 - 현재", role: "BX팀 대리", company: "㈜삼육오엠씨" },
+                  { year: "2021.05 - 2024.07", role: "온라인마케팅팀 대리", company: "휴그린" },
+                  { year: "2020.01 - 2021.04", role: "온라인팀 주임", company: "휴빛조명" },
+                  { year: "2017.02 - 2019.07", role: "디자인개발팀 대리", company: "㈜예도전기조명" },
                 ].map((exp, idx) => (
                   <div
                     key={idx}
@@ -167,10 +171,10 @@ export default function AboutPage() {
               Contact
             </span>
             <h2 className="mt-4 text-3xl md:text-4xl font-bold text-text-primary">
-              Let&apos;s work together
+              함께 작업해요
             </h2>
             <p className="mt-4 text-text-secondary">
-              Have a project in mind? I&apos;d love to hear about it. Let&apos;s create something amazing together.
+              프로젝트에 대한 문의나 협업 제안이 있으시다면 언제든지 연락해 주세요.
             </p>
 
             <motion.div
@@ -180,39 +184,29 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
-              <a
-                href="mailto:hello@hkstudio.design"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-pastel-pink to-pastel-lavender text-text-primary font-medium rounded-full hover:shadow-lg hover:shadow-pastel-pink/30 transition-all duration-300"
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText("hs961102@gmail.com");
+                  toast.success("복사가 완료되었습니다.");
+                }}
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-pastel-pink to-pastel-lavender text-text-primary font-medium rounded-full hover:shadow-lg hover:shadow-pastel-pink/30 transition-all duration-300 cursor-pointer"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                hello@hkstudio.design
-              </a>
+                <Mail className="w-5 h-5" />
+                hs961102@gmail.com
+              </button>
             </motion.div>
 
-            {/* Social Links */}
+            {/* Education */}
             <motion.div
-              className="mt-10 flex items-center justify-center gap-6"
+              className="mt-10 text-text-secondary"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
-              {[
-                { name: "Instagram", href: "#" },
-                { name: "Dribbble", href: "#" },
-                { name: "Behance", href: "#" },
-                { name: "LinkedIn", href: "#" },
-              ].map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  className="text-text-muted hover:text-text-primary transition-colors"
-                >
-                  {social.name}
-                </a>
-              ))}
+              <p className="text-sm">
+                ⓒ 2026. 저작권자 All Rights Reserved.
+              </p>
             </motion.div>
           </div>
         </motion.section>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/layout/Header";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "HS Studio | Designer Portfolio",
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className="antialiased min-h-screen">
         <Header />
         <main>{children}</main>
+        <Toaster position="top-center" />
       </body>
     </html>
   );
