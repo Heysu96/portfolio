@@ -31,7 +31,7 @@ const containerVariants = {
 };
 
 export default function HeroSection() {
-  const title = "HK Studio";
+  const title = "HS Studio";
   const subtitle = "Creative Designer";
 
   return (
