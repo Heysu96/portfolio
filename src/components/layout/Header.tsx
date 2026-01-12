@@ -10,6 +10,7 @@ const easeOutCubic = [0.25, 0.46, 0.45, 0.94] as const;
 const navItems = [
   { href: "/works", label: "Works" },
   { href: "/about", label: "About" },
+  { href: "https://portfolio-ruby-ten-21c9s54l8d.vercel.app/", label: "다른버전 보러가기", external: true },
 ];
 
 export default function Header() {
@@ -44,6 +45,7 @@ export default function Header() {
             <li key={item.href}>
               <Link
                 href={item.href}
+                {...(item.external && { target: "_blank", rel: "noopener noreferrer" })}
                 className="relative text-base font-medium text-text-secondary hover:text-text-primary transition-colors"
               >
                 <span>{item.label}</span>
@@ -104,6 +106,7 @@ export default function Header() {
                       <Link
                         href={item.href}
                         onClick={closeMenu}
+                        {...(item.external && { target: "_blank", rel: "noopener noreferrer" })}
                         className={`block px-5 py-3 text-base font-medium transition-colors ${
                           pathname === item.href
                             ? "text-pastel-pink bg-pastel-pink/10"
