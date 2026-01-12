@@ -1,8 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { projects } from "@/lib/data";
+import { projects, type Project } from "@/lib/data";
+import ProjectModal from "@/components/ui/ProjectModal";
 
 const easeOutCubic = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -10,6 +13,8 @@ const easeOutCubic = [0.25, 0.46, 0.45, 0.94] as const;
 const featuredProjects = projects.slice(0, 3);
 
 export default function FeaturedWorks() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       {/* Plus Pattern Background */}
@@ -47,15 +52,16 @@ export default function FeaturedWorks() {
               }}
               whileHover={{ y: -8 }}
               className="group cursor-pointer"
+              onClick={() => setSelectedProject(project)}
             >
               {/* Thumbnail */}
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-pastel-pink/30 via-pastel-lavender/30 to-pastel-blue/30 mb-4 shadow-sm group-hover:shadow-xl transition-shadow duration-300">
-                {/* Placeholder */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-5xl font-bold text-white/30">
-                    {project.id.padStart(2, "0")}
-                  </span>
-                </div>
+                <Image
+                  src={project.thumbnail}
+                  alt={project.title}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
 
                 {/* Hover overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-text-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -117,6 +123,12 @@ export default function FeaturedWorks() {
           </Link>
         </motion.div>
       </div>
+
+      {/* Project Modal */}
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   );
 }

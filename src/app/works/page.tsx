@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { categories, projects, type Category } from "@/lib/data";
+import { categories, projects, type Category, type Project } from "@/lib/data";
+import ProjectModal from "@/components/ui/ProjectModal";
 
 const easeOutCubic = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -32,6 +34,7 @@ const itemVariants: Variants = {
 
 export default function WorksPage() {
   const [activeCategory, setActiveCategory] = useState<Category>("all");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const filteredProjects =
     activeCategory === "all"
@@ -108,15 +111,16 @@ export default function WorksPage() {
                     variants={itemVariants}
                     layout
                     className="group cursor-pointer"
+                    onClick={() => setSelectedProject(project)}
                   >
                     {/* Thumbnail */}
                     <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-pastel-pink/30 via-pastel-lavender/30 to-pastel-blue/30 mb-4">
-                      {/* Placeholder gradient - replace with actual images */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-6xl font-bold text-white/20">
-                          {project.id.padStart(2, "0")}
-                        </span>
-                      </div>
+                      <Image
+                        src={project.thumbnail}
+                        alt={project.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
                       {/* Hover overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-text-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       {/* View button on hover */}
@@ -171,6 +175,12 @@ export default function WorksPage() {
           </div>
         </div>
       </div>
+
+      {/* Project Modal */}
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </div>
   );
 }
