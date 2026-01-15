@@ -27,6 +27,13 @@ const staggerContainer: Variants = {
 };
 
 export default function AboutPage() {
+  const careers = [
+    { year: "2024.08 - 현재", role: "BX팀 대리", company: "㈜삼육오엠씨" },
+    { year: "2021.05 - 2024.07", role: "온라인마케팅팀 대리", company: "휴그린" },
+    { year: "2020.01 - 2021.04", role: "온라인팀 주임", company: "휴빛조명" },
+    { year: "2017.02 - 2019.07", role: "디자인개발팀 대리", company: "㈜예도전기조명" },
+  ]
+
   return (
     <div className="min-h-screen pt-32 pb-20 relative">
       {/* Plus Pattern Background */}
@@ -133,17 +140,12 @@ export default function AboutPage() {
                 Experience
               </h3>
               <div className="space-y-4">
-                {[
-                  { year: "2024.08 - 현재", role: "BX팀 대리", company: "㈜삼육오엠씨" },
-                  { year: "2021.05 - 2024.07", role: "온라인마케팅팀 대리", company: "휴그린" },
-                  { year: "2020.01 - 2021.04", role: "온라인팀 주임", company: "휴빛조명" },
-                  { year: "2017.02 - 2019.07", role: "디자인개발팀 대리", company: "㈜예도전기조명" },
-                ].map((exp, idx) => (
+                {careers.map((exp, idx) => (
                   <div
                     key={idx}
                     className="flex items-start gap-4 p-4 rounded-xl bg-white/50 border border-pastel-lavender/20 hover:border-pastel-lavender/40 transition-colors"
                   >
-                    <span className="text-sm text-text-muted font-mono whitespace-nowrap">
+                    <span className="w-40 text-sm text-text-muted font-mono whitespace-nowrap">
                       {exp.year}
                     </span>
                     <div>

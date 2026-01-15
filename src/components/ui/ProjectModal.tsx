@@ -116,7 +116,7 @@ export default function ProjectModal({
           />
 
           {/* Modal Container */}
-          <div className="relative w-full max-w-5xl max-h-[90vh] bg-background rounded-2xl shadow-2xl overflow-hidden">
+          <div className="relative w-full max-w-6xl max-h-[90vh] bg-background rounded-2xl shadow-2xl overflow-hidden">
             {/* Scrollable Content Area */}
             <div className="h-full max-h-[90vh] overflow-y-auto pb-16">
               {/* Header - 프로젝트 정보 */}
