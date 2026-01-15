@@ -143,7 +143,7 @@ export default function AboutPage() {
                 {careers.map((exp, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start gap-4 p-4 rounded-xl bg-white/50 border border-pastel-lavender/20 hover:border-pastel-lavender/40 transition-colors"
+                    className="flex items-start gap-4 p-4 rounded-xl bg-white/50 border border-pastel-lavender/50 hover:border-pastel-lavender/40 transition-colors"
                   >
                     <span className="w-40 text-sm text-text-muted font-mono whitespace-nowrap">
                       {exp.year}

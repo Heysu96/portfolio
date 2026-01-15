@@ -136,7 +136,7 @@ export default function ProjectModal({
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 text-sm bg-pastel-pink text-text-primary rounded-full uppercase"
+                      className="px-3 py-1 text-sm bg-pastel-pink/30 text-text-primary rounded-full uppercase"
                     >
                       {tag}
                     </span>
