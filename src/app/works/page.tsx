@@ -34,12 +34,27 @@ const itemVariants: Variants = {
 
 export default function WorksPage() {
   const [activeCategory, setActiveCategory] = useState<Category>("all");
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | null>(null);
 
   const filteredProjects =
     activeCategory === "all"
       ? projects
       : projects.filter((p) => p.category.includes(activeCategory));
+
+  const selectedProject =
+    selectedProjectIndex !== null ? filteredProjects[selectedProjectIndex] : null;
+
+  const handlePrev = () => {
+    if (selectedProjectIndex !== null && selectedProjectIndex > 0) {
+      setSelectedProjectIndex(selectedProjectIndex - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (selectedProjectIndex !== null && selectedProjectIndex < filteredProjects.length - 1) {
+      setSelectedProjectIndex(selectedProjectIndex + 1);
+    }
+  };
 
   return (
     <div className="min-h-screen pt-32 pb-20 relative">
@@ -111,7 +126,7 @@ export default function WorksPage() {
                     variants={itemVariants}
                     layout
                     className="group cursor-pointer"
-                    onClick={() => setSelectedProject(project)}
+                    onClick={() => setSelectedProjectIndex(filteredProjects.indexOf(project))}
                   >
                     {/* Thumbnail */}
                     <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-pastel-pink/30 via-pastel-lavender/30 to-pastel-blue/30 mb-4">
@@ -169,7 +184,11 @@ export default function WorksPage() {
       {/* Project Modal */}
       <ProjectModal
         project={selectedProject}
-        onClose={() => setSelectedProject(null)}
+        onClose={() => setSelectedProjectIndex(null)}
+        onPrev={handlePrev}
+        onNext={handleNext}
+        hasPrev={selectedProjectIndex !== null && selectedProjectIndex > 0}
+        hasNext={selectedProjectIndex !== null && selectedProjectIndex < filteredProjects.length - 1}
       />
     </div>
   );

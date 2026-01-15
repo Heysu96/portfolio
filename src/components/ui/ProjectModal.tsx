@@ -1,117 +1,48 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Project, MediaItem } from "@/lib/data";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { getGoogleDriveEmbedUrl } from "@/lib/utils";
 
 const easeOutCubic = [0.25, 0.46, 0.45, 0.94] as const;
 
 interface MediaGalleryProps {
   media: MediaItem[];
-  projectId: string;
 }
 
-function MediaGallery({ media, projectId }: MediaGalleryProps) {
-  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
-
-  const handlePrev = useCallback(() => {
-    setCurrentMediaIndex((prev) => (prev > 0 ? prev - 1 : media.length - 1));
-  }, [media.length]);
-
-  const handleNext = useCallback(() => {
-    setCurrentMediaIndex((prev) => (prev < media.length - 1 ? prev + 1 : 0));
-  }, [media.length]);
-
-  // Keyboard navigation for gallery
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        handlePrev();
-      }
-      if (e.key === "ArrowRight") {
-        handleNext();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handlePrev, handleNext]);
-
+function MediaGallery({ media }: MediaGalleryProps) {
   if (media.length === 0) return null;
 
-  const currentMedia = media[currentMediaIndex];
-
   return (
-    <div className="relative aspect-video bg-linear-to-br from-pastel-pink/30 via-pastel-lavender/30 to-pastel-blue/30">
-      {currentMedia.type === "image" ? (
-        <div className="relative w-full h-full">
-          <Image
-            src={currentMedia.src}
-            alt={currentMedia.alt || "Project image"}
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 896px"
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-            }}
-          />
-          {/* Placeholder for missing images */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-6xl font-bold text-white/30">
-              {projectId.padStart(2, "0")}
-            </span>
-          </div>
-        </div>
-      ) : (
-        <iframe
-          src={getGoogleDriveEmbedUrl(currentMedia.src)}
-          className="w-full h-full"
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-          title={currentMedia.alt || "Video"}
-        />
-      )}
-
-      {/* Navigation Arrows */}
-      {media.length > 1 && (
-        <>
-          <button
-            onClick={handlePrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/90 hover:bg-white rounded-full shadow-md transition-colors"
-            aria-label="Previous media"
-          >
-            <ChevronLeft className="w-5 h-5 text-text-primary" />
-          </button>
-          <button
-            onClick={handleNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/90 hover:bg-white rounded-full shadow-md transition-colors"
-            aria-label="Next media"
-          >
-            <ChevronRight className="w-5 h-5 text-text-primary" />
-          </button>
-        </>
-      )}
-
-      {/* Media Indicators */}
-      {media.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-          {media.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentMediaIndex(index)}
-              className={`w-2 h-2 rounded-full transition-colors ${
-                index === currentMediaIndex
-                  ? "bg-white"
-                  : "bg-white/50 hover:bg-white/75"
-              }`}
-              aria-label={`Go to media ${index + 1}`}
+    <div className="flex flex-col">
+      {media.map((item, index) => (
+        <div key={index} className="relative w-full">
+          {item.type === "image" ? (
+            <Image
+              src={item.src}
+              alt={item.alt || `Project image ${index + 1}`}
+              width={1920}
+              height={1080}
+              className="w-full h-auto object-contain"
+              sizes="100vw"
+              priority={index === 0}
             />
-          ))}
+          ) : (
+            <div className="relative w-full aspect-video">
+              <iframe
+                src={getGoogleDriveEmbedUrl(item.src)}
+                className="w-full h-full"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                title={item.alt || `Video ${index + 1}`}
+              />
+            </div>
+          )}
         </div>
-      )}
+      ))}
     </div>
   );
 }
@@ -119,14 +50,31 @@ function MediaGallery({ media, projectId }: MediaGalleryProps) {
 interface ProjectModalProps {
   project: Project | null;
   onClose: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
+  hasPrev?: boolean;
+  hasNext?: boolean;
 }
 
-export default function ProjectModal({ project, onClose }: ProjectModalProps) {
+export default function ProjectModal({
+  project,
+  onClose,
+  onPrev,
+  onNext,
+  hasPrev = false,
+  hasNext = false,
+}: ProjectModalProps) {
   // ESC key handler and body scroll lock
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
+      }
+      if (e.key === "ArrowLeft" && hasPrev && onPrev) {
+        onPrev();
+      }
+      if (e.key === "ArrowRight" && hasNext && onNext) {
+        onNext();
       }
     };
 
@@ -139,7 +87,17 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  }, [project, onClose]);
+  }, [project, onClose, onPrev, onNext, hasPrev, hasNext]);
+
+  // 카테고리 라벨 변환
+  const getCategoryLabel = (category: string) => {
+    const labels: Record<string, string> = {
+      web: "WEB",
+      "ai-video": "AI VIDEO",
+      etc: "ETC",
+    };
+    return labels[category] || category.toUpperCase();
+  };
 
   return (
     <AnimatePresence>
@@ -151,71 +109,87 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           transition={{ duration: 0.3, ease: easeOutCubic }}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
         >
-          {/* Backdrop - 클릭 시 모달 닫기 */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm cursor-pointer"
+          {/* Backdrop - 블러 배경 */}
+          <div
+            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
             onClick={onClose}
           />
 
           {/* Modal Container */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.3, ease: easeOutCubic }}
-            className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden"
-          >
-            {/* Close Button */}
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-white/90 hover:bg-white rounded-full shadow-md transition-colors"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5 text-text-primary" />
-            </button>
+          <div className="relative w-full max-w-5xl max-h-[90vh] bg-background rounded-2xl shadow-2xl overflow-hidden">
+            {/* Scrollable Content Area */}
+            <div className="h-full max-h-[90vh] overflow-y-auto pb-16">
+              {/* Header - 프로젝트 정보 */}
+              <div className="sticky top-0 z-10 bg-background px-6 md:px-12 py-6 border-b border-pastel-lavender/30">
+                {/* 카테고리 */}
+                <span className="text-sm font-semibold bg text-pastel-lavender uppercase tracking-wide">
+                  {getCategoryLabel(project.category[0])}
+                </span>
 
-            <div className="overflow-y-auto max-h-[90vh]">
-              {/* Media Gallery - key prop resets state when project changes */}
-              <MediaGallery
-                key={project.id}
-                media={project.media}
-                projectId={project.id}
-              />
-
-              {/* Project Info */}
-              <div className="p-6 md:p-8">
-                {/* Title */}
-                <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-3">
+                {/* 제목 */}
+                <h2 className="text-2xl md:text-4xl font-bold text-text-primary mt-2">
                   {project.title}
                 </h2>
 
-                {/* Description */}
-                <p className="text-text-secondary leading-relaxed mb-6">
+                {/* 태그 */}
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1 text-sm bg-pastel-pink text-text-primary rounded-full uppercase"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* 날짜 */}
+                <span className="text-sm text-text-muted font-mono mt-2 block">
+                  {project.date}
+                </span>
+
+                {/* 닫기 버튼 */}
+                <button
+                  onClick={onClose}
+                  className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center hover:bg-text-primary/10 rounded-full transition-colors"
+                  aria-label="Close modal"
+                >
+                  <X className="w-6 h-6 text-text-primary" />
+                </button>
+              </div>
+
+              {/* Media Gallery - 전체 너비 이미지 */}
+              <MediaGallery key={project.id} media={project.media} />
+
+              {/* Description - 작업 노트 */}
+              <div className="px-6 md:px-12 py-8 border-t border-pastel-lavender/30">
+                <p className="text-text-muted text-sm mb-2">[작업 노트]</p>
+                <p className="text-text-secondary leading-relaxed">
                   {project.description}
                 </p>
-
-                {/* Tags and Date */}
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1.5 text-sm font-semibold text-white bg-pastel-lavender rounded-full shadow-sm"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <span className="text-sm text-text-muted font-mono">
-                    {project.date}
-                  </span>
-                </div>
               </div>
             </div>
-          </motion.div>
+
+            {/* Bottom Navigation - 모달 내부 고정 */}
+            <div className="absolute bottom-0 left-0 right-0 bg-background border-t border-pastel-lavender/30 px-6 md:px-12 py-4 flex justify-between z-20">
+              <button
+                onClick={onPrev}
+                disabled={!hasPrev}
+                className="flex items-center gap-2 px-4 py-2 text-text-primary hover:text-pastel-lavender disabled:opacity-30 disabled:cursor-not-allowed transition-colors rounded-full border border-pastel-lavender/50 hover:border-pastel-lavender"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span className="text-sm font-medium">PREV</span>
+              </button>
+              <button
+                onClick={onNext}
+                disabled={!hasNext}
+                className="flex items-center gap-2 px-4 py-2 text-text-primary hover:text-pastel-lavender disabled:opacity-30 disabled:cursor-not-allowed transition-colors rounded-full border border-pastel-lavender/50 hover:border-pastel-lavender"
+              >
+                <span className="text-sm font-medium">NEXT</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
