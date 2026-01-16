@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { Project, MediaItem } from "@/lib/supabase/types";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import { getGoogleDriveEmbedUrl } from "@/lib/utils";
+import { getVideoEmbedUrl } from "@/lib/utils";
 
 const easeOutCubic = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -33,7 +33,7 @@ function MediaGallery({ media }: MediaGalleryProps) {
           ) : (
             <div className="relative w-full aspect-video">
               <iframe
-                src={getGoogleDriveEmbedUrl(item.src)}
+                src={getVideoEmbedUrl(item.src)}
                 className="w-full h-full"
                 allow="autoplay; encrypted-media"
                 allowFullScreen
