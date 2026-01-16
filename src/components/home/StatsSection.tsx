@@ -3,14 +3,10 @@
 import { useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { projects } from "@/lib/data";
 
-
-const stats = [
-  { value: projects.length, suffix: "+", label: "Projects", icon: "📁" },
-  { value: 8, suffix: "+", label: "Years Experience", icon: "⏳" },
-  { value: 20, suffix: "+", label: "Available Tools", icon: "🛠️" },
-];
+interface StatsSectionProps {
+  projectCount: number;
+}
 
 const easeOutCubic = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -49,7 +45,13 @@ function CountUp({ value, suffix }: { value: number; suffix: string }) {
   );
 }
 
-export default function StatsSection() {
+export default function StatsSection({ projectCount }: StatsSectionProps) {
+  const stats = [
+    { value: projectCount, suffix: "+", label: "Projects", icon: "📁" },
+    { value: 8, suffix: "+", label: "Years Experience", icon: "⏳" },
+    { value: 20, suffix: "+", label: "Available Tools", icon: "🛠️" },
+  ];
+
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       {/* Background Gradient */}

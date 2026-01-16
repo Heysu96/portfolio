@@ -7,12 +7,12 @@
   --foreground: #2D3748;
 
   /* Pastel Colors */
-  --pastel-pink: #FFD1DC;
-  --pastel-blue: #B5D8FF;
-  --pastel-mint: #B5F5EC;
-  --pastel-lavender: #E0D4F7;
-  --pastel-peach: #FFDAB3;
-  --pastel-yellow: #FFF4BD;
+  --pastel-pink: #FFB3C6;
+  --pastel-blue: #8DC4FF;
+  --pastel-mint: #7EEBD9;
+  --pastel-lavender: #C9B8F0;
+  --pastel-peach: #FFC285;
+  --pastel-yellow: #FFE98A;
 
   /* Text */
   --text-primary: #2D3748;
@@ -72,9 +72,12 @@ body {
 
 /* Gradient Animations */
 @keyframes gradient-shift {
-  0%, 100% {
+
+  0%,
+  100% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }

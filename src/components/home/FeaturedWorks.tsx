@@ -4,15 +4,16 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { projects, type Project } from "@/lib/data";
+import type { Project } from "@/lib/supabase/types";
 import ProjectModal from "@/components/ui/ProjectModal";
 
 const easeOutCubic = [0.25, 0.46, 0.45, 0.94] as const;
 
-// Get first 3 projects
-const featuredProjects = projects.slice(0, 3);
+interface FeaturedWorksProps {
+  projects: Project[];
+}
 
-export default function FeaturedWorks() {
+export default function FeaturedWorks({ projects }: FeaturedWorksProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
@@ -39,7 +40,7 @@ export default function FeaturedWorks() {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {featuredProjects.map((project, index) => (
+          {projects.map((project, index) => (
             <motion.article
               key={project.id}
               initial={{ opacity: 0, y: 40 }}

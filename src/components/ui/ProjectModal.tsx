@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { Project, MediaItem } from "@/lib/data";
+import type { Project, MediaItem } from "@/lib/supabase/types";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { getGoogleDriveEmbedUrl } from "@/lib/utils";

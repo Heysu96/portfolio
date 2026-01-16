@@ -20,6 +20,8 @@ export default function Header() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
+  if (pathname.startsWith('/admin')) return null;
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
@@ -107,11 +109,10 @@ export default function Header() {
                         href={item.href}
                         onClick={closeMenu}
                         {...(item.external && { target: "_blank", rel: "noopener noreferrer" })}
-                        className={`block px-5 py-3 text-base font-medium transition-colors ${
-                          pathname === item.href
-                            ? "text-pastel-pink bg-pastel-pink/10"
-                            : "text-text-secondary hover:text-text-primary hover:bg-pastel-blue/10"
-                        }`}
+                        className={`block px-5 py-3 text-base font-medium transition-colors ${pathname === item.href
+                          ? "text-pastel-pink bg-pastel-pink/10"
+                          : "text-text-secondary hover:text-text-primary hover:bg-pastel-blue/10"
+                          }`}
                       >
                         {item.label}
                       </Link>
