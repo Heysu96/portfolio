@@ -30,8 +30,32 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { createProject, updateProject, uploadImage, addMedia, deleteMedia, reorderMedia } from "@/app/admin/actions";
+import { createProject, updateProject, addMedia, deleteMedia, reorderMedia } from "@/app/admin/actions";
+import { createClient } from "@/lib/supabase/client";
 import type { DbCategory, DbMedia, ProjectWithDetails } from "@/lib/supabase/types";
+
+async function uploadImageClient(file: File): Promise<string> {
+  const supabase = createClient();
+
+  const ext = file.name.split(".").pop() || "png";
+  const fileName = `${Date.now()}-${crypto.randomUUID()}.${ext}`;
+  const filePath = `projects/${fileName}`;
+
+  const { error } = await supabase.storage
+    .from("project-images")
+    .upload(filePath, file);
+
+  if (error) {
+    console.error("Error uploading image:", error);
+    throw new Error("이미지 업로드에 실패했습니다.");
+  }
+
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from("project-images").getPublicUrl(filePath);
+
+  return publicUrl;
+}
 
 interface ProjectFormProps {
   categories: DbCategory[];
@@ -101,9 +125,7 @@ export default function ProjectForm({ categories, project }: ProjectFormProps) {
 
     setUploadingThumbnail(true);
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const url = await uploadImage(formData);
+      const url = await uploadImageClient(file);
       setThumbnailPreview(url);
     } catch (error) {
       console.error("Failed to upload thumbnail:", error);
@@ -120,9 +142,7 @@ export default function ProjectForm({ categories, project }: ProjectFormProps) {
     setUploadingMedia(true);
     try {
       for (const file of files) {
-        const formData = new FormData();
-        formData.append("file", file);
-        const url = await uploadImage(formData);
+        const url = await uploadImageClient(file);
         await addMedia(project.id, { type: "image", src: url });
       }
       router.refresh();
