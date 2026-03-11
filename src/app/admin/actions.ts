@@ -372,7 +372,8 @@ export async function uploadImage(formData: FormData): Promise<string> {
     throw new Error("파일이 없습니다.");
   }
 
-  const fileName = `${Date.now()}-${file.name}`;
+  const ext = file.name.split(".").pop() || "png";
+  const fileName = `${Date.now()}-${crypto.randomUUID()}.${ext}`;
   const filePath = `projects/${fileName}`;
 
   const { error } = await supabase.storage
